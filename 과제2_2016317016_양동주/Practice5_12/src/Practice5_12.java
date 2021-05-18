@@ -32,9 +32,8 @@ class Rect extends Shape {
 class GraphicEditor { // 필요하다면 메소드 추가 가능
 	//필드 선언
 	String editorName=null;	//에디터이름
-	Shape header = new Circle();//링크드리스트의 헤더. 추상메소드는 객체 생성이 안되서 circle로 만듬.
-	Shape tmptNode;//임시 노드를 가리키는 변수
-	Shape preNode;//이전 노드를 가리키는 변수
+	Shape header = null;
+	Shape end=null;
 
 	Scanner scanner = new Scanner(System.in);
 	//메뉴 입력 수 변수
@@ -75,65 +74,38 @@ class GraphicEditor { // 필요하다면 메소드 추가 가능
 	}
 
 	private boolean delete(int index) {
-		tmptNode=header.getNext();//헤더 다음 첫 노드로 이동
-			if(index>1) {//삭제할 위치가 1이상일때
-				
-				//노드를 이동시키는 반복문
-				for(int i = 0;i<index-1;i++) {						
-					//현재 노드가 존재할경우
-					if(tmptNode!=null) {
-						//현재 노드는 이전 노드로, 현재 노드는 다음 노드로.
-						preNode=tmptNode;
-						tmptNode=tmptNode.getNext();
-					}
-					//현재 노드가 존재하지 않을경우.
-					else {
-						System.out.println("삭제할 수 없습니다.");
-						return false;
-					}
-				}
-				
-				//이동시키고 나서 삭제 처리
-				if(tmptNode!=null) {
-					preNode.setNext(tmptNode.getNext());//이전노드 다음 노드를 현재 노드 다음 노드로 설정.
-					tmptNode=null;//현재 노드를 삭제
-					System.out.println("정상적으로 삭제하였습니다.");
-					return true;	
-				}
-				//현재 노드가 없을 경우.
-				else {
-					System.out.println("삭제할 수 없습니다.");
-					return false;
-				}
-			}
-			//삭제시킬 노드가 첫번째 노드일 경우.
-			else if(index==1) {
-				//노드가 존재할 경우
-				if(tmptNode!=null) {
-					header.setNext(tmptNode.getNext());//헤더 다음 노드를 현재 노드 다음 노드로 설정.
-					tmptNode=null;//현재 노드 삭제
-					System.out.println("정상적으로 삭제하였습니다.");
-					return true;					
-				}
-				//노드가 존재 하지 않을 경우.
-				else {
-					System.out.println("삭제할 수 없습니다.");
-					return false;
-				}
-			}
-			//0이나 음수가 index로 올 경우.
-			else {
-				System.out.println("삭제할 수 없습니다.");
+		Shape current = header;
+		Shape previous = header;
+		
+		if (header==null)
+			return false;
+		
+		for (int i=0; i<index;i++) {
+			previous = current;
+			current = current.getNext();
+			if(current==null)
 				return false;
-			}
-
+		}
+		if (header==end) {
+			header=null;
+			end=null;
+			return true;
+		}
+		if(current==header) {
+			header=header.getNext();
+		}
+		else if (current==end) {
+			end=previous;
+			end.setNext(null);
+		} else {
+			previous.setNext(current.getNext());
+		}
+		return true;
 	}
 
 	private void insert(int choice) {
 		//입력할 shape를 null로 초기화.
 		Shape insertedShape=null;
-		//임시노드를 헤더에 위치시킴
-		tmptNode=header;
 		
 		//유저의 선택에 따라 동적바인딩을 위한 객체 생성
 		if (choice==1) {
@@ -148,24 +120,21 @@ class GraphicEditor { // 필요하다면 메소드 추가 가능
 			insertedShape=new Circle();
 			System.out.println("Circle inserted.");
 		}
-		
-		//맨 뒷자리에 입력하기 위해 임시노드를 이동시키고 연결.
-		while(true) {
-			if(tmptNode.getNext()==null) {
-				tmptNode.setNext(insertedShape);
-				break;
-			}
-			else {
-				tmptNode=tmptNode.getNext();				
-			}
+		if(header==null) {
+			header=insertedShape;
+			end=insertedShape;
+		} else {
+			end.setNext(insertedShape);
+			end=insertedShape;
 		}
+		//맨 뒷자리에 입력하기 위해 임시노드를 이동시키고 연결.
 		
 	}
 	private void showAll() {
-		tmptNode=header.getNext();
-		while(tmptNode!=null) {
-			tmptNode.draw(); //동적바인딩
-			tmptNode=tmptNode.getNext();
+		Shape current =header;
+		while(current!=null) {
+			current.draw(); //동적바인딩
+			current=current.getNext();
 		}
 	}
 }
