@@ -11,7 +11,7 @@ public class BufferPractice {
 		FileReader fin = new FileReader(f);
 		int c;
 		while ((c=fin.read())!=-1) {
-			bout.write(c);
+			bout.write((char)c);
 		}
 		fin.close();
 		bout.close();	
