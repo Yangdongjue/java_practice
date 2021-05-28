@@ -1,0 +1,27 @@
+package finaltest;
+import java.io.FileWriter;
+import java.util.Scanner;
+import java.io.IOException;
+public class FileWriterEx {
+	public static void main(String[] args) {
+		FileWriter writer = null;
+		Scanner scanner = new Scanner(System.in);
+		
+		try {
+			writer = new FileWriter("C:\\Users\\YANG\\Desktop\\hangul.txt");
+			while(true) {				
+				String input = scanner.next();
+				if(input.length()==0) {
+					break;
+				}
+				writer.write(input, 0, input.length());
+				writer.write("\n");
+				
+			}
+			writer.close();
+		}
+		catch (IOException e) {
+			System.out.println(e);
+		}
+	}
+}

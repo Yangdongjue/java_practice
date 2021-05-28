@@ -1,0 +1,14 @@
+package zoom0525;
+import javax.swing.*;
+import java.awt.*;
+
+public class Gui3 extends JFrame{
+	public Gui3() {
+		Container c = getContentPane();
+		c.setLayout(new FlowLayout());
+		c.setBackground(Color.YELLOW);
+		JButton b = new JButton("click");
+		setSize(300,300);
+		setVisible(true);
+	}
+}

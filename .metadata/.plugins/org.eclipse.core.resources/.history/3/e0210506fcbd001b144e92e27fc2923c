@@ -1,0 +1,51 @@
+package finaltest;
+
+class GStack<T>{
+	int tos;
+	Object [] stk;
+	public GStack() {
+		tos=0;
+		stk=new Object[10];
+	}
+	public void push(T item) {
+		if(tos==10)
+			return;
+		stk[tos]=item;
+		tos++;
+	}
+	public T pop() {
+		if(tos==0)
+			return null;
+		tos--;
+		return (T)stk[tos];		
+	}
+}
+public class MyStack {
+	public static <T> GStack<T> reverse(GStack<T> a){
+		GStack<T> s = new GStack<T>();
+		while(true) {
+			T tmp;
+			tmp=a.pop();
+			if (tmp==null)
+				break;
+			else
+				s.push(tmp);
+		}
+		return s;
+	}
+	public static void main(String[] args) {
+		GStack<Integer> a = new GStack<>();
+		a.push(3);
+		a.push(4);
+		a.push(6);
+		
+		reverse(a);
+		while(true) {
+			Integer b=a.pop();
+			if (b==null)
+				break;
+			else
+				System.out.println((int)b);
+		}
+	}
+}

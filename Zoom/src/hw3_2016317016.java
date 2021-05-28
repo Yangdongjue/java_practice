@@ -15,6 +15,7 @@ public class hw3_2016317016{
 		System.out.print("-이름 입력:"); String key=scanner.nextLine();
 		System.out.print("-전화번호 입력:"); String value=scanner.nextLine();
 		hs.put(key, value);
+		
 	}
 	static void delete(HashMap<String, String> hs) {
 		Scanner scanner = new Scanner(System.in);
